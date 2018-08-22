@@ -1,0 +1,73 @@
+#service discovery url
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.6.118:8761/eureka/
+  instance:
+    metadata-map:
+      cluster: MAIN
+    # Allow Eureka to recognize two apps of the same type on the same host as separate instances:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    
+spring:
+  redis:
+    password: 123456
+    database: 0
+    port: 6379
+    pool:
+      max-idle: 8
+      min-idle: 5
+      max-active: 8
+      max-wait: -1
+    host: 192.168.6.110
+    timeout: 5000
+  multipart:
+    enabled: true
+    maxFileSize: 10Mb
+    maxRequestSize: 100Mb
+  #rabbitmq配置
+  rabbitmq:
+    host: 172.24.20.218
+    port: 5672
+    username: admin
+    password: admin123
+  zipkin:
+    base-url: http://192.168.6.117:11030
+    
+wx:
+  appId: wxd2a8841d92ccdc5d
+  appSecret: 640c971d3b68a4cc02ff115400ac8a72
+
+feign:
+  hystrix:
+    enabled: false
+  httpclient:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml;application/xml;application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  eagerLoad:
+    enabled: true
+
+management:
+  security:
+    enabledd: true
+    role: ADMIN
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600000

@@ -1,0 +1,21 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: true # 用ribbon来做负载均衡
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enableSelfPreservation: false  # 关闭自我保护模式（缺省为打开）
+
+
+# 安全认证的配置
+security:
+  basic:
+    enabled: true
+  user:
+    name: admin  # 用户名
+    password: a!23456   # 用户密码

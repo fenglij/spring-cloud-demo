@@ -1,0 +1,54 @@
+server:
+  port: 8888
+
+#使用svn属性文件
+spring:
+  application:
+    name: config-service
+  profiles:
+    active: subversion
+#    active: native
+  #属性文件地址，只要指定文件夹的路径
+  cloud:
+    config:
+      server:
+#        native:
+#          searchLocations: classpath:/properties/
+        svn:
+          uri: http://172.24.20.199/svn/svnrepos/Cloud/Java/dev/cloud/common-service/config-service/src/main/resources
+          username: jenkins
+          password: abc@123
+        default-label: properties
+
+  # rabbitmq配置
+  rabbitmq:
+    host: 172.24.20.218
+    port: 5672
+    username: admin
+    password: admin123
+
+#service discovery url
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:a!23456@192.168.6.118:8761/eureka/
+#      defaultZone: http://admin:a!23456@127.0.0.1:8761/eureka/
+  instance:
+    # Allow Eureka to recognize two apps of the same type on the same host as separate instances:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    metadata-map:
+      cluster: MAIN
+      user:
+        name: admin
+        password: a!23456
+
+management:
+  security:
+    enabled: false
+
+logging:
+  levels:
+    org.springframework.boot.env.PropertySourcesLoader: TRACE
+    org.springframework.cloud.config.server: DEBUG
